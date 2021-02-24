@@ -26,6 +26,7 @@ public class User {
 	@NotNull
 	private String name;
 	
+	
     @Column(updatable=false)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -35,16 +36,10 @@ public class User {
     @OneToMany(mappedBy="user", fetch=FetchType.LAZY, orphanRemoval = true)
     private List<Post> posts;
     
-//    @OneToMany(mappedBy="user", fetch=FetchType.LAZY, orphanRemoval=true)
-//    private List<Comment> comments;
+    @OneToMany(mappedBy="user", fetch=FetchType.LAZY, orphanRemoval=true)
+    private List<Comment> comments;
     
-	public List<Post> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
+	
 
 	public User() {
 		
@@ -52,6 +47,22 @@ public class User {
 	
 	public User(String name) {
 		this.name = name;
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 	
 	public Long getId() {

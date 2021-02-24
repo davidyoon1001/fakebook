@@ -7,7 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/index.css">
-<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %> 
+<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
 <script type="text/javascript" src="js/LTCController.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -27,7 +28,7 @@
 				<a href="/main">home</a>
 			</div>
 			<div class="col-sm-6">
-				<h1>main feed</h1>
+				<h1>${post.user.name}'s Post</h1>
 				<div >
 					<div class="postHeader">
 						<c:out value="${post.title}"/>
@@ -39,20 +40,22 @@
 						<p>comments</p>
 					</div>
 					<div>
-					
+						<c:forEach items="${post.comments}" var="comment">
+							<p><a href="/user/${comment.user.id}/profile">${comment.user.name }</a> : ${comment.context} </p>
+						</c:forEach>
 					</div>
 					<div>
-						<form:form method="post" action="/post" modelAttribute="post">
+						<form:form method="post" action="/comment" modelAttribute="comment">
 							<form:label path="user">user:</form:label>
 							<form:input type="text" path="user" value="${loginUser.id}" />
 							
-							<form:label path="title">title:</form:label>
-							<form:input type="text" path="title" />
+							<form:label path="post">post:</form:label>
+							<form:input type="text" path="post" value="${post.id}" />
 							
 							<form:label path="context">context:</form:label>
 							<form:input type="text" path="context" />
 							
-							<input type="submit" value="Post">
+							<input type="submit" value="Comment">
 						</form:form>
 					</div>
 				</div>

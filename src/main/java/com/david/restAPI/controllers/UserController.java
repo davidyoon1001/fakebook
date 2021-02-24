@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.david.restAPI.models.Comment;
 import com.david.restAPI.models.Post;
-//import com.david.restAPI.models.Post;
 import com.david.restAPI.models.User;
+import com.david.restAPI.services.CommentService;
 import com.david.restAPI.services.PostService;
 import com.david.restAPI.services.UserService;
 
@@ -21,7 +22,10 @@ import com.david.restAPI.services.UserService;
 public class UserController {
 	private final UserService userService;
 	private final PostService postService;
-	public UserController(UserService userService, PostService postService ) {
+	private final CommentService commentService;	
+	
+	public UserController(UserService userService, PostService postService, CommentService commentService ) {
+		this.commentService = commentService;
 		this.userService = userService;
 		this.postService = postService;
 	}
@@ -30,13 +34,14 @@ public class UserController {
 	public String domain(@ModelAttribute("user") User user) {
 		return "domain.jsp";
 	}
-	
 	@RequestMapping("/main")
 	public String main(Model model, HttpSession session) {
-		List<User> users = userService.allUsers();
 		List<Post> posts = postService.allPosts();
-		model.addAttribute("users", users);
 		model.addAttribute("posts", posts);
+//		List<User> users = userService.allUsers();
+//		List<Comment> comments = commentService.allComments();
+//		model.addAttribute("users", users);
+//		model.addAttribute("comments", comments);
 		return "main.jsp";
 	}
 	
@@ -46,6 +51,7 @@ public class UserController {
 		session.setAttribute("loginUser", usr);
 		return "redirect:/main";
 	}
+	
 	
 	
 	@RequestMapping("/users/{id}/edit")
@@ -81,9 +87,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/post", method=RequestMethod.POST)
-	public String create(@ModelAttribute(value="post") Post post, HttpSession session ) {
+	public String create(@ModelAttribute(value="post") Post post) {
 		postService.createPost(post);
-		
 		return "redirect:/main";
 	}
 	
@@ -102,10 +107,33 @@ public class UserController {
 		return "redirect:/main";
 	}
 	
-//	@RequestMapping(value="posts/{id}/post")
-//	public String viewPost(@PathVariable("id") Long id, Model model,@ModelAttribute(value="comment" Comment comment)) {
-//		Post post = postService.findPost(id);
-//		model.addAttribute("post", post);
-//		return "viewPost.jsp";
-//	}
+	@RequestMapping(value="posts/{id}/post")
+	public String viewPost(@PathVariable("id") Long id, Model model,@ModelAttribute(value="comment") Comment comment) {
+		Post post = postService.findPost(id);
+		model.addAttribute("post", post);
+		return "viewPost.jsp";
+	}
+	
+	@RequestMapping(value="/comment", method=RequestMethod.POST)
+	public String comment(@ModelAttribute(value="comment") Comment comment) {
+		System.out.println(comment.getUser().getName());
+		System.out.println(comment.getPost().getTitle());
+		System.out.println(comment.getContext());
+		commentService.createComment(comment);
+		return "redirect:/main";
+	}
+	
+	@RequestMapping(value="comments/{id}/delete", method=RequestMethod.DELETE)
+	public String deleteComment(@PathVariable("id") Long id) {
+		Comment comment = commentService.findComment(id);
+		commentService.deleteComment(comment);
+		return "redirect:/main";
+	}
+	
+	@RequestMapping("/user/{id}/profile")
+	public String userProfile(@PathVariable("id") Long id, Model model){
+		User user = userService.findUser(id);
+		model.addAttribute("user", user);
+		return "userProfile.jsp";
+	}
 }

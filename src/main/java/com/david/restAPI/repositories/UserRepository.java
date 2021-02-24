@@ -16,7 +16,8 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	Long countByNameContaining(String search);
 	
 	Long deleteByNameStartingWith(String search);
-	
+//	
+//	User findByEmail(String email);
 	
 	void delete(User user);
 }
