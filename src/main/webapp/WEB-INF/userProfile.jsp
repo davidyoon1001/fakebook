@@ -19,7 +19,10 @@
 	<div >
 		<div class="row">
 			<div class="col-sm-3">
-				<h1><c:out value="${user.name}"/></h1>
+				<h1><a href="/user/${loginUser.id}/profile"><c:out value="${user.name}"/></a></h1>
+				<br>
+				<br>
+				<a href="/users/${loginUser.id}/edit">edit</a>
 				<br>
 				<br>
 				<a href="/logout">Logout</a>

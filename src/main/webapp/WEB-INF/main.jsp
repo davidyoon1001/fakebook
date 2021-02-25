@@ -31,46 +31,43 @@
 				<br>
 				<br>
 				<a href="/users/${loginUser.id}/post">post</a>
-				</div>
-			<div class="col-sm-6"><h1>FakeBook Feed</h1>
-				<div>
-					<c:forEach items="${posts}" var="post">
-						<div class="postList">
-							<div class="postHeader">
-								<h3><a href="/user/${post.user.id}/profile"><c:out value="${post.user.name}"/></a></h3>
-							</div>
-							<div class="postContext">
-								<p><c:out value="${post.context}"/></p>
-							</div>
-							<div>
-								<p>up REPLY</p>
-							</div>
-							<div>
-								<p>${posts.comments.size()} comments</p>
-							</div>
-							<div>
-								<c:forEach items="${post.comments}" var="comment">
-									<p><a href="/user/${comment.user.id}/profile">${comment.user.name }</a> : ${comment.context} </p>
-									<p>up down <a href="user/${comment.user.id}/reply">REPLY</a></p>
-								</c:forEach>
-							</div>
-							<div>
-								<form:form method="post" action="/comment" modelAttribute="comment">
-									<form:label path="user">user:</form:label>
-									<form:input type="text" path="user" value="${loginUser.id}" />
-									
-									<form:label path="post">post:</form:label>
-									<form:input type="text" path="post" value="${post.id}" />
-									
-									<form:label path="context">context:</form:label>
-									<form:input type="text" path="context" />
-									
-									<input type="submit" value="Comment">
-								</form:form>
-							</div>
+			</div>
+			<div class="col-sm-6">
+				<c:forEach items="${posts}" var="post">
+					<div class="postList">
+						<div class="postHeader">
+							<h3><a href="/user/${post.user.id}/profile"><c:out value="${post.user.name}"/></a></h3>
 						</div>
-					</c:forEach>
-				</div>
+						<div class="postContext">
+							<p><c:out value="${post.context}"/></p>
+						</div>
+						<div>
+							<p>up REPLY</p>
+						</div>
+						<div>
+							<p>${post.comments.size()} comments</p>
+						</div>
+						<div>
+							<c:forEach items="${post.comments}" var="comment">
+								<p><a href="/user/${comment.user.id}/profile">${comment.user.name }</a> : ${comment.context} </p>
+								<p>up down <a href="user/${comment.user.id}/reply">REPLY</a></p>
+							</c:forEach>
+						</div>
+						<div>
+							<form:form method="post" action="/comment" modelAttribute="comment">
+								<form:input type="hidden" path="user" value="${loginUser.id}" />
+								
+								<form:label path="post">post:</form:label>
+								<form:input type="hidden" path="post" value="${post.id}" />
+								
+								<form:label path="context">context:</form:label>
+								<form:input type="text" path="context" placeholder="Write a comment..."/>
+								
+								<input type="submit" value="Comment">
+							</form:form>
+						</div>
+					</div>
+				</c:forEach>
 			</div>
 			<div class="col-sm-3">
 				<div>

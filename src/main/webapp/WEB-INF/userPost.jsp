@@ -21,12 +21,21 @@
 <div class="main">
 	<a href="/main">home</a>
 	<div class="row">
-		<div class="col-sm-6"><h1>Post</h1></div>
+		<div class="col-sm-3">
+			<h1><a href="/user/${loginUser.id}/profile"><c:out value="${loginUser.name}"/></a></h1>
+			<br>
+			<br>
+			<a href="/users/${loginUser.id}/edit">edit</a>
+			<br>
+			<br>
+			<a href="/logout">Logout</a>
+			<br>
+			<br>
+			<a href="/main">home</a>
 		<div class="col-sm-6">
 			<div>
 				<form:form method="post" action="/post" modelAttribute="post">
-					<form:label path="user">user:</form:label>
-					<form:input type="text" path="user" value="${loginUser.id}" />
+					<form:input type="hidden" path="user" value="${loginUser.id}" />
 					
 					<form:label path="title">title:</form:label>
 					<form:input type="text" path="title" />
@@ -38,6 +47,7 @@
 				</form:form>
 			</div>
 		</div>
+		<div class="col-sm-3"><h1>SideBar</h1></div>
 	</div>
 </div>
 </body>

@@ -20,18 +20,25 @@
 	
 	<div class="main">
 		<div class="row">
-			<div class="col-sm-6">
-				<h1>Edit Info</h1>
+			<div class="col-sm-3">
+				<h1><a href="/user/${loginUser.id}/profile"><c:out value="${loginUser.name}"/></a></h1>
+				<br>
+				<br>
+				<a href="/users/${loginUser.id}/edit">edit</a>
+				<br>
+				<br>
+				<a href="/logout">Logout</a>
+				<br>
+				<br>
 				<a href="/main">home</a>
 			</div>
-			
 			<div class="col-sm-6">
+				<div><h1>Edit Info</h1></div>
 				<div>
 					<form:form method="post" action="/users/${user.id}/update" modelAttribute="user">
 						<input type="hidden" name="_method" value="put">
 						<form:label path="name">name:</form:label>
-						<form:input type="text" path="name" />
-						
+						<form:input type="text" path="name" />		
 						<input type="submit" value="Confirm">
 					</form:form>
 				</div>
@@ -41,6 +48,9 @@
 					<input type="submit" value="Delete Acc">
 					</form>
 				</div>
+			</div>
+			<div class="col-sm-3">
+				<h1>Sidebar</h1>
 			</div>
 		</div>
 </div>

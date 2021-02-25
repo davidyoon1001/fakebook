@@ -35,7 +35,7 @@ public class UserController {
 		return "domain.jsp";
 	}
 	@RequestMapping("/main")
-	public String main(Model model, HttpSession session) {
+	public String main(Model model, HttpSession session,@ModelAttribute(value="comment") Comment comment) {
 		List<Post> posts = postService.allPosts();
 		model.addAttribute("posts", posts);
 //		List<User> users = userService.allUsers();
